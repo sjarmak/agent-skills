@@ -13,7 +13,9 @@
       "Bash(uvicorn router:*)",
       "Bash(cd router-service*)",
       "Bash(python test_router.py:*)",
-      "Bash(git reset:*)"
+      "Bash(git reset:*)",
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nAdd CLAUDE.md for automatic task routing instructions\n\n- Add CLAUDE.md with instructions for Claude Code to automatically route\n  coding tasks through the router service before delegating to driver agents\n\n- Update model-router skill description to clarify auto-invocation\n\nThis enables seamless routing: when a user asks Claude Code to do a coding\ntask, Claude will automatically call the router to pick the best agent\n\\(codex, cursor, gemini, copilot\\) based on task type and complexity.\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(git push:*)"
     ]
   }
 }

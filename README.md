@@ -42,7 +42,17 @@ Each driver agent:
 - Iterates until the exact deliverable is achieved
 - Verifies results before reporting completion
 
-## Usage
+## Installation
+
+### Quick Install (Global)
+
+```bash
+git clone https://github.com/sjarmak/agent-skills.git ~/agent-skills
+cd ~/agent-skills
+./install.sh
+```
+
+This installs skills and agents to `~/.claude/` so they're available in **all** your Claude Code sessions.
 
 ### Prerequisites
 
@@ -53,13 +63,36 @@ Install the CLI tools you want to use:
 - **Google Gemini CLI**: [github.com/google-gemini/gemini-cli](https://github.com/google-gemini/gemini-cli)
 - **Cursor CLI**: [cursor.com](https://cursor.com)
 
-### Activating in Claude Code
-
-Copy the `.claude` directory to your project or add it to your global Claude Code configuration:
+### Start the Router Service
 
 ```bash
-cp -r .claude ~/.claude
+cd ~/agent-skills/router-service
+source .venv/bin/activate
+uvicorn router:app --host 127.0.0.1 --port 8765
 ```
+
+**Pro tip:** Add to `~/.zshrc` for easy startup:
+```bash
+alias start-router='cd ~/agent-skills/router-service && source .venv/bin/activate && uvicorn router:app --host 127.0.0.1 --port 8765 &'
+```
+
+## Usage
+
+### The `/delegate` Command
+
+In any Claude Code session, use `/delegate` to automatically route and execute tasks:
+
+```
+/delegate Fix the authentication bug in login.py
+/delegate Write a REST API endpoint for user registration
+/delegate Explain how the caching system works
+/delegate Refactor the payment module to use async/await
+```
+
+Claude will:
+1. Call the router to classify your task
+2. Pick the optimal agent (codex, cursor, gemini, copilot)
+3. Delegate and return results
 
 ### Delegating Tasks
 
