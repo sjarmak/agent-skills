@@ -3,7 +3,11 @@
     "allow": [
       "Bash(copilot:*)",
       "Bash(codex exec:*)",
-      "Bash(gemini:*)"
+      "Bash(gemini:*)",
+      "Bash(agent:*)",
+      "WebFetch(domain:cursor.com)",
+      "Bash(tree:*)",
+      "Bash(git add:*)"
     ]
   }
 }
