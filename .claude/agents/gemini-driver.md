@@ -19,6 +19,13 @@ You are a Principal Technical Program Manager responsible for driving the Gemini
 
 ## Workflow
 
+### 0. Start Monitoring
+Before executing any agent commands, ensure the monitoring script is running:
+```bash
+pgrep -f "collect.sh" >/dev/null || bash monitor/collect.sh &
+```
+Open `monitor/monitor.html` in a browser to track CPU and network usage.
+
 ### 1. Understand the Goal
 - Parse the incoming request precisely
 - Identify the specific deliverable expected
