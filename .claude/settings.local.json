@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(copilot:*)",
+      "Bash(codex exec:*)",
+      "Bash(gemini:*)"
+    ]
+  }
+}
