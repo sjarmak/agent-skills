@@ -1,8 +1,8 @@
 """
-NVIDIA Prompt Classifier Router Service
+Agent Router Service
 
 Routes tasks to appropriate AI CLI tools (Codex, Copilot, Gemini, Cursor)
-based on task type and complexity analysis using NVIDIA's classifier.
+based on task type and complexity analysis using an optimized rule-based classifier.
 
 Start: uvicorn router:app --host 127.0.0.1 --port 8765
 """
@@ -24,7 +24,7 @@ MODEL_ID = "nvidia/prompt-task-and-complexity-classifier"
 
 app = FastAPI(
     title="Agent Router Service",
-    description="Routes tasks to optimal AI CLI tools using NVIDIA's classifier",
+    description="Routes tasks to optimal AI CLI tools using rule-based classification",
     version="1.0.0"
 )
 

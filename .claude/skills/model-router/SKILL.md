@@ -1,6 +1,6 @@
 ---
 name: model-router
-description: Routes tasks to optimal AI CLI agents (Codex, Cursor, Gemini, Copilot) using an optimized rule-based classifier. Analyzes task type and complexity to select the best tool. Use when you are about to delegate a coding task to automatically pick the best agent.
+description: Routes tasks to optimal AI CLI agents (Codex, Cursor, Gemini, Copilot) using a fast rule-based classifier (~1ms). Analyzes task type and complexity to select the best tool. Use when you are about to delegate a coding task to automatically pick the best agent.
 invocation: auto
 ---
 
