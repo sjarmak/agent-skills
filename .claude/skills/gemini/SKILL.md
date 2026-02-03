@@ -5,6 +5,14 @@ description: Translates task requirements into Gemini CLI commands. Used by gemi
 
 # Gemini CLI Skill Guide
 
+## PATH Setup (CRITICAL)
+
+Subagents run with a minimal PATH. Always include mise/node paths:
+
+```bash
+export PATH="$HOME/.local/share/mise/installs/node/24.13.0/bin:$HOME/.local/bin:$PATH" && gemini <args>
+```
+
 ## Baseline Rules
 
 Always apply these for programmatic (headless) execution:
@@ -16,33 +24,33 @@ Always apply these for programmatic (headless) execution:
 
 ### New Task (read-only)
 ```bash
-NODE_OPTIONS="--no-warnings" gemini -p "<prompt>"
+export PATH="$HOME/.local/share/mise/installs/node/24.13.0/bin:$HOME/.local/bin:$PATH" && NODE_OPTIONS="--no-warnings" gemini -p "<prompt>"
 ```
 
 ### New Task (with file edits)
 ```bash
-NODE_OPTIONS="--no-warnings" gemini -p "<prompt>" --yolo
+export PATH="$HOME/.local/share/mise/installs/node/24.13.0/bin:$HOME/.local/bin:$PATH" && NODE_OPTIONS="--no-warnings" gemini -p "<prompt>" --yolo
 ```
 
 ### New Task (with additional directories)
 ```bash
-NODE_OPTIONS="--no-warnings" gemini -p "<prompt>" --yolo --include-directories src,lib
+export PATH="$HOME/.local/share/mise/installs/node/24.13.0/bin:$HOME/.local/bin:$PATH" && NODE_OPTIONS="--no-warnings" gemini -p "<prompt>" --yolo --include-directories src,lib
 ```
 
 ### Pipe file content
 ```bash
-cat <file> | NODE_OPTIONS="--no-warnings" gemini -p "<prompt describing what to do with the content>"
+export PATH="$HOME/.local/share/mise/installs/node/24.13.0/bin:$HOME/.local/bin:$PATH" && cat <file> | NODE_OPTIONS="--no-warnings" gemini -p "<prompt describing what to do with the content>"
 ```
 
 ### Resume Session
 ```bash
-NODE_OPTIONS="--no-warnings" gemini --resume latest -p "<prompt>"
+export PATH="$HOME/.local/share/mise/installs/node/24.13.0/bin:$HOME/.local/bin:$PATH" && NODE_OPTIONS="--no-warnings" gemini --resume latest -p "<prompt>"
 ```
 Note: Use `--resume latest` for most recent session, or `--resume <id>` for a specific session. Use `--list-sessions` to see available sessions.
 
 ### JSON output for parsing
 ```bash
-NODE_OPTIONS="--no-warnings" gemini -p "<prompt>" --output-format json | jq -r '.response'
+export PATH="$HOME/.local/share/mise/installs/node/24.13.0/bin:$HOME/.local/bin:$PATH" && NODE_OPTIONS="--no-warnings" gemini -p "<prompt>" --output-format json | jq -r '.response'
 ```
 
 ## Approval Modes
@@ -85,12 +93,12 @@ If not specified, use default model (no flag needed).
 
 Pipe file content to Gemini:
 ```bash
-cat src/config.ts | gemini -p "Explain this configuration"
+export PATH="$HOME/.local/share/mise/installs/node/24.13.0/bin:$HOME/.local/bin:$PATH" && cat src/config.ts | gemini -p "Explain this configuration"
 ```
 
 Or use `--include-directories` to give Gemini access:
 ```bash
-gemini -p "Analyze the authentication module" --include-directories src/auth
+export PATH="$HOME/.local/share/mise/installs/node/24.13.0/bin:$HOME/.local/bin:$PATH" && gemini -p "Analyze the authentication module" --include-directories src/auth
 ```
 
 ## Interpreting Results
@@ -137,6 +145,9 @@ Report to user: "You can resume this Gemini session by saying 'gemini resume'."
 ### Useful Patterns
 
 ```bash
+# Set PATH for all commands
+export PATH="$HOME/.local/share/mise/installs/node/24.13.0/bin:$HOME/.local/bin:$PATH"
+
 # Code review
 cat src/auth.py | gemini -p "Review for security issues"
 

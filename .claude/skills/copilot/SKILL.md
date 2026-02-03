@@ -5,6 +5,14 @@ description: Translates task requirements into GitHub Copilot CLI commands. Used
 
 # GitHub Copilot CLI Skill Guide
 
+## PATH Setup (CRITICAL)
+
+Subagents run with a minimal PATH. Always include mise/node paths:
+
+```bash
+export PATH="$HOME/.local/share/mise/installs/node/24.13.0/bin:$HOME/.local/bin:$PATH" && copilot <args>
+```
+
 ## Baseline Rules
 
 Always apply these for programmatic (non-interactive) execution:
@@ -15,22 +23,22 @@ Always apply these for programmatic (non-interactive) execution:
 
 ### New Task (read-only)
 ```bash
-copilot -p "<prompt>"
+export PATH="$HOME/.local/share/mise/installs/node/24.13.0/bin:$HOME/.local/bin:$PATH" && copilot -p "<prompt>"
 ```
 
 ### New Task (with file edits)
 ```bash
-copilot -p "<prompt>" --allow-all-paths
+export PATH="$HOME/.local/share/mise/installs/node/24.13.0/bin:$HOME/.local/bin:$PATH" && copilot -p "<prompt>" --allow-all-paths
 ```
 
 ### New Task (with URL access)
 ```bash
-copilot -p "<prompt>" --allow-all-paths --allow-all-urls
+export PATH="$HOME/.local/share/mise/installs/node/24.13.0/bin:$HOME/.local/bin:$PATH" && copilot -p "<prompt>" --allow-all-paths --allow-all-urls
 ```
 
 ### Resume Session
 ```bash
-copilot --continue
+export PATH="$HOME/.local/share/mise/installs/node/24.13.0/bin:$HOME/.local/bin:$PATH" && copilot --continue
 ```
 Note: Session inherits its original model and permissions. Use `-p "<prompt>"` with `--continue` if providing a new prompt.
 

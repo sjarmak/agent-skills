@@ -5,9 +5,22 @@
       "Bash(codex exec:*)",
       "Bash(gemini:*)",
       "Bash(agent:*)",
-      "WebFetch(domain:cursor.com)",
       "Bash(tree:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(curl -s -X POST http://127.0.0.1:8765/*)",
+      "Bash(curl -s http://127.0.0.1:8765/*)",
+      "Bash(uvicorn router:*)",
+      "Bash(cd router-service*)",
+      "Bash(python test_router.py:*)",
+      "Bash(git push:*)",
+      "Bash(./install.sh)",
+      "Bash(gh api:*)",
+      "Bash(git fetch:*)",
+      "WebSearch",
+      "Bash(git commit:*)",
+      "Bash(python3:*)",
+      "Skill(gemini)",
+      "Skill(gemini:*)"
     ]
   }
 }

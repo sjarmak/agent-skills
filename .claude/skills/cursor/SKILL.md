@@ -5,6 +5,26 @@ description: Translates task requirements into Cursor CLI commands. Used by curs
 
 # Cursor CLI Skill Guide
 
+## Common Mistakes
+
+> **The CLI command is `agent`, NOT `cursor`**
+
+| Wrong | Right |
+|-------|-------|
+| `cursor -p "..."` | `agent -p "..."` |
+| `cursor resume` | `agent resume` |
+| `cursor ls` | `agent ls` |
+
+## PATH Setup (CRITICAL)
+
+Subagents run with a minimal PATH. Always prefix commands with PATH setup:
+
+```bash
+export PATH="$HOME/.local/bin:$PATH" && agent <args>
+```
+
+Or use the full path directly: `~/.local/bin/agent`
+
 ## Baseline Rules
 
 Always apply these for programmatic (headless) execution:
@@ -13,60 +33,73 @@ Always apply these for programmatic (headless) execution:
 
 ## Command Templates
 
-### New Task (analysis/read-only)
+### New Task (auto model - RECOMMENDED)
 ```bash
-agent -p "<prompt>" --mode ask --output-format text
+# Uses --model auto for automatic model selection based on task complexity
+export PATH="$HOME/.local/bin:$PATH" && agent -p "<prompt>" --model auto --output-format text
 ```
 
-### New Task (with file edits)
+### With explicit mode override (only when needed)
 ```bash
-agent -p "<prompt>" --mode agent --output-format text
+# Use --mode only when you need to override auto-selection
+export PATH="$HOME/.local/bin:$PATH" && agent -p "<prompt>" --model auto --mode [ask|agent|plan] --output-format text
 ```
 
-### New Task (planning only)
+### With explicit model selection
 ```bash
-agent -p "<prompt>" --mode plan --output-format text
-```
-
-### With model selection
-```bash
-agent -p "<prompt>" --model gpt-5 --output-format text
+export PATH="$HOME/.local/bin:$PATH" && agent -p "<prompt>" --model gpt-5.2 --output-format text
 ```
 
 ### Resume Session (latest)
 ```bash
-agent resume -p "<prompt>" --output-format text
+export PATH="$HOME/.local/bin:$PATH" && agent resume -p "<prompt>" --output-format text
 ```
 
 ### Resume Session (specific)
 ```bash
-agent --resume="<chat-id>" -p "<prompt>" --output-format text
+export PATH="$HOME/.local/bin:$PATH" && agent --resume="<chat-id>" -p "<prompt>" --output-format text
 ```
 
 ### List Previous Sessions
 ```bash
-agent ls
+export PATH="$HOME/.local/bin:$PATH" && agent ls
 ```
 
 ## Execution Modes
 
-| Task Type | Flag | Notes |
-| --- | --- | --- |
-| Analysis, review, Q&A | `--mode ask` | Read-only, no file changes |
-| Create or edit files | `--mode agent` | Full agent capabilities |
-| Planning, architecture | `--mode plan` | Generates plan without execution |
+**Default Behavior**: Mode is auto-selected based on task type. Override only when necessary.
+
+| Task Type | Auto-Selected | Override Flag | Notes |
+| --- | --- | --- | --- |
+| Analysis, review, Q&A | `ask` | `--mode ask` | Read-only, no file changes |
+| Create or edit files | `agent` | `--mode agent` | Full agent capabilities |
+| Planning, architecture | `plan` | `--mode plan` | Generates plan without execution |
+
+**Recommendation**: Let Cursor auto-select the mode. Only use `--mode` flag when:
+- You need to force read-only behavior for a task that might trigger edits
+- You want planning output without execution
+- Auto-selection chooses incorrectly for your specific use case
 
 ## Model Selection
 
-When the calling agent specifies requirements, translate to flags:
+**Default (RECOMMENDED)**: Always use `--model auto` to let Cursor automatically select the best model based on task complexity.
+
+```bash
+# Recommended: Let Cursor choose the optimal model
+export PATH="$HOME/.local/bin:$PATH" && agent -p "<prompt>" --model auto
+```
+
+**Explicit model selection** is available when you need a specific model, but is optional:
 
 | Requirement | Flag | Notes |
 | --- | --- | --- |
-| Default / high-quality | `--model gpt-5` | Best for complex reasoning |
-| Fast / cheap | `--model gpt-4o` | Quick, straightforward tasks |
-| Claude | `--model claude-sonnet` | Anthropic model option |
+| Auto (RECOMMENDED) | `--model auto` | Cursor selects best model for task |
+| High-quality reasoning | `--model gpt-5.2` | Complex reasoning tasks |
+| Fast / cheap | `--model gemini-3-flash` | Quick, straightforward tasks |
+| Claude thinking | `--model opus-4.5-thinking` | Deep reasoning with Claude |
+| Claude fast | `--model sonnet-4.5` | Fast Claude option |
 
-If not specified, use default model (no flag needed).
+If not specified, always default to `--model auto`.
 
 ## Output Formats
 
@@ -125,19 +158,19 @@ Report to user: "You can resume this Cursor session by saying 'cursor resume'."
 
 ```bash
 # Code review (read-only)
-agent -p "Review src/auth.py for security issues" --mode ask --output-format text
+export PATH="$HOME/.local/bin:$PATH" && agent -p "Review src/auth.py for security issues" --model auto --mode ask --output-format text
 
 # Implement feature
-agent -p "Add input validation to the login form" --mode agent --output-format text
+export PATH="$HOME/.local/bin:$PATH" && agent -p "Add input validation to the login form" --model auto --output-format text
 
 # Generate plan
-agent -p "Plan the migration from REST to GraphQL" --mode plan --output-format text
+export PATH="$HOME/.local/bin:$PATH" && agent -p "Plan the migration from REST to GraphQL" --model auto --mode plan --output-format text
 
 # Continue previous work
-agent resume -p "Now add unit tests for the changes"
+export PATH="$HOME/.local/bin:$PATH" && agent resume -p "Now add unit tests for the changes"
 
 # Cloud-powered complex task
-agent "& analyze codebase architecture and suggest improvements"
+export PATH="$HOME/.local/bin:$PATH" && agent "& analyze codebase architecture and suggest improvements"
 ```
 
 ### Interactive Mode

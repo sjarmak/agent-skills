@@ -5,6 +5,14 @@ description: Translates task requirements into Codex CLI commands. Used by codex
 
 # Codex Skill Guide
 
+## PATH Setup (CRITICAL)
+
+Subagents run with a minimal PATH. Always include homebrew path:
+
+```bash
+export PATH="/opt/homebrew/bin:$HOME/.local/bin:$PATH" && codex <args>
+```
+
 ## Baseline Rules
 
 Always apply these to every `codex exec` command:
@@ -16,12 +24,12 @@ Always apply these to every `codex exec` command:
 
 ### New Task
 ```bash
-codex exec --skip-git-repo-check --sandbox <MODE> [options] "<prompt>" 2>/dev/null
+export PATH="/opt/homebrew/bin:$HOME/.local/bin:$PATH" && codex exec --skip-git-repo-check --sandbox <MODE> [options] "<prompt>" 2>/dev/null
 ```
 
 ### Resume Session
 ```bash
-echo "<prompt>" | codex exec --skip-git-repo-check resume --last 2>/dev/null
+export PATH="/opt/homebrew/bin:$HOME/.local/bin:$PATH" && echo "<prompt>" | codex exec --skip-git-repo-check resume --last 2>/dev/null
 ```
 Note: When resuming, do not include model/sandbox flags — the session inherits its original settings. Flags must go between `exec` and `resume`.
 
